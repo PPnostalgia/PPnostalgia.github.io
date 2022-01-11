@@ -6,7 +6,7 @@
   <link href="https://www.luckyshrek.top/atom.xml" rel="self"/>
   
   <link href="https://www.luckyshrek.top/"/>
-  <updated>2022-01-10T15:27:06.005Z</updated>
+  <updated>2022-01-11T12:37:32.636Z</updated>
   <id>https://www.luckyshrek.top/</id>
   
   <author>
@@ -15,26 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://www.luckyshrek.top/4a17b156.html"/>
-    <id>https://www.luckyshrek.top/4a17b156.html</id>
-    <published>2022-01-11T12:32:36.650Z</published>
-    <updated>2022-01-10T15:27:06.005Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
-      
-    
-    
-    
-    
-  </entry>
   
   <entry>
     <title>论坛博客之常用工具</title>
@@ -288,9 +268,9 @@
     
     <category term="Spring" scheme="https://www.luckyshrek.top/tags/Spring/"/>
     
-    <category term="代理" scheme="https://www.luckyshrek.top/tags/%E4%BB%A3%E7%90%86/"/>
-    
     <category term="缓存" scheme="https://www.luckyshrek.top/tags/%E7%BC%93%E5%AD%98/"/>
+    
+    <category term="代理" scheme="https://www.luckyshrek.top/tags/%E4%BB%A3%E7%90%86/"/>
     
   </entry>
   
@@ -429,34 +409,6 @@
   </entry>
   
   <entry>
-    <title>（三）Nginx常用命令</title>
-    <link href="https://www.luckyshrek.top/1b4c740b.html"/>
-    <id>https://www.luckyshrek.top/1b4c740b.html</id>
-    <published>2021-12-02T09:25:27.000Z</published>
-    <updated>2022-01-10T15:27:06.008Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Nginx默认绑定80端口</p><p>因为使用的云服务器，自动配置了nginx在80接口，所以我们这里重新设置了Nginx的端口3999</p><h1 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h1><p>nginx配置文件位置<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure><br>配置文件组成<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">三部分组成：</span></span><br><span class="line">1. 全局块（整体运行配置指令）、</span><br><span class="line"></span><br><span class="line">2. events（影响nginx服务器与用户的网络连接，such as worker connections 1024支持最大连接数）</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3. http块（全局块、server块）</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> HTTPS server</span></span><br><span class="line">   http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       3999;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">实现不同路径访问不同接口</span></span><br><span class="line">location ~ /etc/ &#123;</span><br><span class="line">            proxy_pass http://110.42.190.115:8080</span><br><span class="line">        &#125;</span><br><span class="line">location ~ /vod/ &#123;</span><br><span class="line">            proxy_pass http://110.42.190.115:8081</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p><h2 id="（一）服务器配置"><a href="#（一）服务器配置" class="headerlink" title="（一）服务器配置"></a>（一）服务器配置</h2><p>修改配置文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">三处修改</span><br><span class="line">1. /etc/nginx .conf</span><br><span class="line">  http &#123;</span><br><span class="line">        #   省略部分内容    </span><br><span class="line">        include /etc/nginx/conf.d/*.conf;</span><br><span class="line">        include /etc/nginx/sites-enabled/*;</span><br><span class="line">&#125;</span><br><span class="line">2./etc/nginx/sites-enabled/</span><br><span class="line">server &#123;</span><br><span class="line">        listen 3999 default_server;</span><br><span class="line">        listen [::]:3999 default_server;</span><br><span class="line">3./usr/local/nginx/nginx.conf：将原来的80端口换成3999</span><br><span class="line">4. 绑定配置文件</span><br><span class="line">sudo ./nginx -c /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p><h2 id="（二）控制台配置"><a href="#（二）控制台配置" class="headerlink" title="（二）控制台配置"></a>（二）控制台配置</h2><p>增加3999端口到过滤规则中</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看nginx版本号</span></span><br><span class="line">./nginx -V</span><br><span class="line"><span class="meta">#</span><span class="bash">启动nginx</span></span><br><span class="line">./nginx</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭nginx</span></span><br><span class="line">./nginx -s stop</span><br><span class="line"><span class="meta">#</span><span class="bash">重启nginx</span></span><br><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
-      
-    
-    
-    
-    <category term="Nginx" scheme="https://www.luckyshrek.top/categories/Nginx/"/>
-    
-    
-    <category term="Ubuntu" scheme="https://www.luckyshrek.top/tags/Ubuntu/"/>
-    
-    <category term="Nginx" scheme="https://www.luckyshrek.top/tags/Nginx/"/>
-    
-    <category term="shell" scheme="https://www.luckyshrek.top/tags/shell/"/>
-    
-  </entry>
-  
-  <entry>
     <title>（五）Nginx之动静分离</title>
     <link href="https://www.luckyshrek.top/393ee9f6.html"/>
     <id>https://www.luckyshrek.top/393ee9f6.html</id>
@@ -479,6 +431,32 @@
     <category term="Nginx" scheme="https://www.luckyshrek.top/tags/Nginx/"/>
     
     <category term="Tomcat" scheme="https://www.luckyshrek.top/tags/Tomcat/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>（八）Nginx设置域名转发到指定端口</title>
+    <link href="https://www.luckyshrek.top/ccc01c1.html"/>
+    <id>https://www.luckyshrek.top/ccc01c1.html</id>
+    <published>2021-12-02T09:25:27.000Z</published>
+    <updated>2022-01-10T15:27:06.096Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="域名映射到指定接口"><a href="#域名映射到指定接口" class="headerlink" title="域名映射到指定接口"></a>域名映射到指定接口</h1><p>　　第一次配域名学习到了很多知识，比如域名是直接解析到ip地址的，不包括接口。而腾讯云的默认http端口是80端口，我的web服务是自定义到4000端口的，如果每次访问域名还必须指定端口，这就很掉价。于是想到了刚学的Nginx反向代理的功能</p><p>  这里只需要修改nginx.conf即可实现反向代理功能<br>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> server&#123;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> 监听端口</span></span><br><span class="line">   listen:80;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> 域名</span></span><br><span class="line">   server_name www.luckyshrek.top;</span><br><span class="line">   </span><br><span class="line"><span class="meta">   #</span><span class="bash">匹配所有路径</span></span><br><span class="line">   location / &#123;</span><br><span class="line">      # 转发</span><br><span class="line">      proxy_pass http://www.luckyshrek.top:4000;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="Nginx" scheme="https://www.luckyshrek.top/categories/Nginx/"/>
+    
+    
+    <category term="Nginx" scheme="https://www.luckyshrek.top/tags/Nginx/"/>
+    
+    <category term="域名" scheme="https://www.luckyshrek.top/tags/%E5%9F%9F%E5%90%8D/"/>
     
   </entry>
   
@@ -509,13 +487,13 @@
   </entry>
   
   <entry>
-    <title>（八）Nginx设置域名转发到指定端口</title>
-    <link href="https://www.luckyshrek.top/ccc01c1.html"/>
-    <id>https://www.luckyshrek.top/ccc01c1.html</id>
+    <title>（四）负载均衡</title>
+    <link href="https://www.luckyshrek.top/172d7376.html"/>
+    <id>https://www.luckyshrek.top/172d7376.html</id>
     <published>2021-12-02T09:25:27.000Z</published>
-    <updated>2022-01-10T15:27:06.096Z</updated>
+    <updated>2022-01-10T15:27:06.010Z</updated>
     
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><h1 id="域名映射到指定接口"><a href="#域名映射到指定接口" class="headerlink" title="域名映射到指定接口"></a>域名映射到指定接口</h1><p>　　第一次配域名学习到了很多知识，比如域名是直接解析到ip地址的，不包括接口。而腾讯云的默认http端口是80端口，我的web服务是自定义到4000端口的，如果每次访问域名还必须指定端口，这就很掉价。于是想到了刚学的Nginx反向代理的功能</p><p>  这里只需要修改nginx.conf即可实现反向代理功能<br>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> server&#123;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> 监听端口</span></span><br><span class="line">   listen:80;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> 域名</span></span><br><span class="line">   server_name www.luckyshrek.top;</span><br><span class="line">   </span><br><span class="line"><span class="meta">   #</span><span class="bash">匹配所有路径</span></span><br><span class="line">   location / &#123;</span><br><span class="line">      # 转发</span><br><span class="line">      proxy_pass http://www.luckyshrek.top:4000;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>主要配置：在nginx的配置文件中实现负载均衡的配置<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">通过upstream定义一组服务器，并配置负载策略</span></span><br><span class="line">upstream myserver(自定义名字)&#123;</span><br><span class="line"><span class="meta">   #</span><span class="bash">默认轮询</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> ip_hash</span></span><br><span class="line">    server:110.42.190.115:8080 #weight=5(加权)</span><br><span class="line"> server:110.42.190.115:8081</span><br><span class="line"><span class="meta"> #</span><span class="bash">fair;(根据响应时间来分配)</span></span><br><span class="line">&#125;</span><br><span class="line">server&#123;</span><br><span class="line">    listen 80</span><br><span class="line"> server_name 192.68.170.129</span><br><span class="line"> ...</span><br><span class="line"><span class="meta"> #</span><span class="bash"> location可以进行正则匹配</span></span><br><span class="line"> location / &#123;</span><br><span class="line"><span class="meta">   #</span><span class="bash">若是动态资源，proxy_pass， 使用指定网址或上面定义的servername</span></span><br><span class="line">    proxy_pass http://myserver;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 若是静态资源</span></span><br><span class="line"><span class="meta"> #</span><span class="bash"> root /data/静态服务器本地路径</span></span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p><h3 id="Nginx分配策略"><a href="#Nginx分配策略" class="headerlink" title="Nginx分配策略"></a>Nginx分配策略</h3><ol><li>轮询</li></ol><ul><li>按照时间顺序逐一分配到不同的后端服务器</li></ul><ol><li>加权</li></ol><ul><li>权重越高，被分配的客户端越多 在upstream里配置weight=num</li></ul><ol><li>ip_hash</li></ol><ul><li>为某个用户根据ip指定分配某一台服务器的方式（不常用）</li><li>在upstream中直接加上ip_hash</li></ul><ol><li>fair</li></ol><ul><li>按后端服务器的响应时间来分配，响应时间短的优先分配</li></ul><p>补充：nginx还可以进行ip访问控制，不必在后端进行拦截</p>]]></content>
     
     
       
@@ -528,9 +506,39 @@
     <category term="Nginx" scheme="https://www.luckyshrek.top/categories/Nginx/"/>
     
     
+    <category term="Ubuntu" scheme="https://www.luckyshrek.top/tags/Ubuntu/"/>
+    
     <category term="Nginx" scheme="https://www.luckyshrek.top/tags/Nginx/"/>
     
-    <category term="域名" scheme="https://www.luckyshrek.top/tags/%E5%9F%9F%E5%90%8D/"/>
+    <category term="shell" scheme="https://www.luckyshrek.top/tags/shell/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>（三）Nginx常用命令</title>
+    <link href="https://www.luckyshrek.top/1b4c740b.html"/>
+    <id>https://www.luckyshrek.top/1b4c740b.html</id>
+    <published>2021-12-02T09:25:27.000Z</published>
+    <updated>2022-01-10T15:27:06.008Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>Nginx默认绑定80端口</p><p>因为使用的云服务器，自动配置了nginx在80接口，所以我们这里重新设置了Nginx的端口3999</p><h1 id="配置方法"><a href="#配置方法" class="headerlink" title="配置方法"></a>配置方法</h1><p>nginx配置文件位置<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure><br>配置文件组成<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">三部分组成：</span></span><br><span class="line">1. 全局块（整体运行配置指令）、</span><br><span class="line"></span><br><span class="line">2. events（影响nginx服务器与用户的网络连接，such as worker connections 1024支持最大连接数）</span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">3. http块（全局块、server块）</span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> HTTPS server</span></span><br><span class="line">   http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       3999;</span><br><span class="line">        server_name  localhost;</span><br><span class="line"></span><br><span class="line">        #charset koi8-r;</span><br><span class="line"></span><br><span class="line">        #access_log  logs/host.access.log  main;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line"><span class="meta">#</span><span class="bash">实现不同路径访问不同接口</span></span><br><span class="line">location ~ /etc/ &#123;</span><br><span class="line">            proxy_pass http://110.42.190.115:8080</span><br><span class="line">        &#125;</span><br><span class="line">location ~ /vod/ &#123;</span><br><span class="line">            proxy_pass http://110.42.190.115:8081</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #error_page  404              /404.html;</span><br><span class="line"></span><br><span class="line">        # redirect server error pages to the static page /50x.html</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p><h2 id="（一）服务器配置"><a href="#（一）服务器配置" class="headerlink" title="（一）服务器配置"></a>（一）服务器配置</h2><p>修改配置文件<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">三处修改</span><br><span class="line">1. /etc/nginx .conf</span><br><span class="line">  http &#123;</span><br><span class="line">        #   省略部分内容    </span><br><span class="line">        include /etc/nginx/conf.d/*.conf;</span><br><span class="line">        include /etc/nginx/sites-enabled/*;</span><br><span class="line">&#125;</span><br><span class="line">2./etc/nginx/sites-enabled/</span><br><span class="line">server &#123;</span><br><span class="line">        listen 3999 default_server;</span><br><span class="line">        listen [::]:3999 default_server;</span><br><span class="line">3./usr/local/nginx/nginx.conf：将原来的80端口换成3999</span><br><span class="line">4. 绑定配置文件</span><br><span class="line">sudo ./nginx -c /usr/local/nginx/conf/nginx.conf</span><br></pre></td></tr></table></figure></p><h2 id="（二）控制台配置"><a href="#（二）控制台配置" class="headerlink" title="（二）控制台配置"></a>（二）控制台配置</h2><p>增加3999端口到过滤规则中</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看nginx版本号</span></span><br><span class="line">./nginx -V</span><br><span class="line"><span class="meta">#</span><span class="bash">启动nginx</span></span><br><span class="line">./nginx</span><br><span class="line"><span class="meta">#</span><span class="bash">关闭nginx</span></span><br><span class="line">./nginx -s stop</span><br><span class="line"><span class="meta">#</span><span class="bash">重启nginx</span></span><br><span class="line">./nginx -s reload</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot; cla</summary>
+      
+    
+    
+    
+    <category term="Nginx" scheme="https://www.luckyshrek.top/categories/Nginx/"/>
+    
+    
+    <category term="Ubuntu" scheme="https://www.luckyshrek.top/tags/Ubuntu/"/>
+    
+    <category term="Nginx" scheme="https://www.luckyshrek.top/tags/Nginx/"/>
+    
+    <category term="shell" scheme="https://www.luckyshrek.top/tags/shell/"/>
     
   </entry>
   
