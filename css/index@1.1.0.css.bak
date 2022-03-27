@@ -52,6 +52,15 @@ button:hover{
 	cursor: url('https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/img/cur/pointer.cur'),auto;
 }
 
+#web_bg {
+    position: fixed;
+    z-index: -999;
+    width: 100%;
+    height: 100%;
+	opacity: 0.4;
+    background: url(https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/img/configuration/background01.jpg);
+}
+
 
 code,
 kbd,
@@ -3826,7 +3835,7 @@ blockquote footer cite:before {
 #page-header.not-top-img #nav #page-name-text:hover,
 #page-header.not-top-img #nav .menus_item>.site-page:hover,
 #page-header.not-top-img #nav #hotkey .site-page:hover {
-	color: var(--second) !important;
+	color: var(--hassan-black) !important;
 	background-color: var(--main);
 	box-shadow: var(--main-shadow);
 	-webkit-transition: all .3s;
@@ -3853,7 +3862,7 @@ blockquote footer cite:before {
 }
 
 #nav #page-name-text {
-	opacity: 0;
+	opacity: 1;
 	font-weight: 700;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -3870,6 +3879,7 @@ blockquote footer cite:before {
 }
 
 #page-header.nav-fixed #nav #page-name-text {
+	color: var(--font-color);
 	opacity: 1;
 	top: 0;
 	transition: .3s;
@@ -3880,6 +3890,64 @@ blockquote footer cite:before {
 	opacity: 0;
 	transform: translateY(-60px);
 	transition: .3s;
+}
+
+/* post nav hover */
+#nav a.site-page.child:hover {
+	color: var(--second) !important;
+	background-color: var(--main);
+	box-shadow: var(--main-shadow);
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	-o-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;
+}
+
+#page-header.post-bg #nav #site-name:hover,
+#page-header.post-bg #nav .menus_item>.site-page:hover,
+#page-header.post-bg #nav #hotkey .site-page:hover {
+	color: var(--main) !important;
+	background-color: var(--second);
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	-o-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;
+}
+
+[data-theme="dark"] #page-header.post-bg #nav #site-name:hover,
+[data-theme="dark"] #page-header.post-bg #nav .menus_item>.site-page:hover,
+[data-theme="dark"] #page-header.post-bg #nav #hotkey .site-page:hover {
+	color: var(--second) !important;
+	background-color: var(--main);
+}
+
+#page-header.post-bg #nav #site-name,
+#page-header.post-bg #nav .menus_item>.site-page,
+#page-header.post-bg #nav #hotkey .site-page {
+	color: var(--cover-text);
+}
+
+#page-header.post-bg.nav-fixed #nav #site-name,
+#page-header.post-bg.nav-fixed #nav #page-name-text,
+#page-header.post-bg.nav-fixed #nav .menus_item>.site-page,
+#page-header.post-bg.nav-fixed #nav #hotkey .site-page {
+	color: var(--font-color);
+}
+
+#page-header.post-bg.nav-fixed #nav #site-name:hover,
+#page-header.post-bg.nav-fixed #nav #page-name-text:hover,
+#page-header.post-bg.nav-fixed #nav .menus_item>.site-page:hover,
+#page-header.post-bg.nav-fixed #nav #hotkey .site-page:hover {
+	color: var(--second) !important;
+	background-color: var(--main);
+	box-shadow: var(--main-shadow);
+	-webkit-transition: all .3s;
+	-moz-transition: all .3s;
+	-o-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;
 }
 
 /* nav hotkey */
@@ -3931,6 +3999,7 @@ blockquote footer cite:before {
   background: var(--hassan-transparent-white)!important 
 }
 
+
 #nav .menus_items .menus_item .menus_item_child li a:hover,#page-header.nav-fixed #nav a:hover,div#menus .menus_item:hover>a span {
 	color: var(--hassan-main-fontcolor)
 }
@@ -3942,7 +4011,7 @@ blockquote footer cite:before {
   top: 0 !important;
   /*background: rgba(255,255,255,0.8);*/
   -webkit-box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
-  /*box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);*/
+  box-shadow: 0 5px 6px -5px rgba(133,133,133,0.6);
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -3972,8 +4041,9 @@ blockquote footer cite:before {
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
   -ms-transition: all 0.5s;
-  transition: all 0.5s;
+  transition: all 0.5s;*/
 }
+
 
 @media screen and (max-width: 768px) {
   #nav {
@@ -3993,6 +4063,7 @@ blockquote footer cite:before {
 
   
 #nav.show {
+  transform: translate3d(0,0,0) !important;
   position: fixed;
   z-index: 91;
   -ms-filter: none;
@@ -4034,21 +4105,18 @@ blockquote footer cite:before {
   cursor: pointer;
 }
 
-/*	
-.page #nav #blog_name a,.page #nav #search-button i,.page #nav #search-button span,.page #nav .darkmode_navswitch i,.page #nav .darkmode_navswitch span,.page #nav .menus_item>.site-page i,.page #nav .menus_item>.site-page span {
-	color: var(--hassan-white)
-}
 
-.page .nav-fixed #nav #blog_name a,.page .nav-fixed #nav #search-button i,.page .nav-fixed #nav #search-button span,.page .nav-fixed #nav .darkmode_navswitch i,.page .nav-fixed #nav .darkmode_navswitch span,.page .nav-fixed #nav .menus_item>.site-page i,.page .nav-fixed #nav .menus_item>.site-page span {
+.page #nav #blog_name a,.page #nav #hotkey #search-button i,.page #nav #hotkey #search-button span,.page #nav #hotkey #mode-button i,.page #nav #hotkey #mode-button span,.page #nav #hotkey #top-button i,.page #nav #hotkey #top-button span,.page #nav .menus_item>.site-page i,.page #nav .menus_item>.site-page span {
+	/*color: var(--hassan-white)*/
 	color: var(--hassan-fontcolor)
 }
-*/						
-					
- 
+
+.page .nav-fixed #nav #blog_name a,.page .nav-fixed #nav #hotkey #search-button i,.page .nav-fixed #nav #hotkey #search-button span,.page .nav-fixed #nav #hotkey #mode-button i,.page .nav-fixed #nav #hotkey #mode-button span,.page .nav-fixed #nav #hotkey #top-button i,.page .nav-fixed #nav #hotkey #top-button span,.page .nav-fixed #nav .menus_item>.site-page i,.page .nav-fixed #nav .menus_item>.site-page span {
+	color: var(--hassan-fontcolor)
+}
+						
 
 
-									
-			
  
 
 #nav .menus_item_child .site-page.child {
@@ -4184,11 +4252,6 @@ blockquote footer cite:before {
   cursor: pointer;
 }
 
-
-				 
-				   
- 
-					   
 			   
  
 

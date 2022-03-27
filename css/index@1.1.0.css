@@ -52,6 +52,15 @@ button:hover{
 	cursor: url('https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/img/cur/pointer.cur'),auto;
 }
 
+#web_bg {
+    position: fixed;
+    z-index: -999;
+    width: 100%;
+    height: 100%;
+	opacity: 1;
+    background: url(https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/img/configuration/background01.jpg);
+}
+
 
 code,
 kbd,
@@ -3853,7 +3862,7 @@ blockquote footer cite:before {
 }
 
 #nav #page-name-text {
-	opacity: 0;
+	opacity: 1;
 	font-weight: 700;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -4098,7 +4107,8 @@ blockquote footer cite:before {
 
 
 .page #nav #blog_name a,.page #nav #hotkey #search-button i,.page #nav #hotkey #search-button span,.page #nav #hotkey #mode-button i,.page #nav #hotkey #mode-button span,.page #nav #hotkey #top-button i,.page #nav #hotkey #top-button span,.page #nav .menus_item>.site-page i,.page #nav .menus_item>.site-page span {
-	color: var(--hassan-white)
+	/*color: var(--hassan-white)*/
+	color: var(--hassan-fontcolor)
 }
 
 .page .nav-fixed #nav #blog_name a,.page .nav-fixed #nav #hotkey #search-button i,.page .nav-fixed #nav #hotkey #search-button span,.page .nav-fixed #nav #hotkey #mode-button i,.page .nav-fixed #nav #hotkey #mode-button span,.page .nav-fixed #nav #hotkey #top-button i,.page .nav-fixed #nav #hotkey #top-button span,.page .nav-fixed #nav .menus_item>.site-page i,.page .nav-fixed #nav .menus_item>.site-page span {

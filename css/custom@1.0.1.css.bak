@@ -1,4 +1,4 @@
-<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>/* 文章页H1-H6图标样式效果 */
+/* 文章页H1-H6图标样式效果 */
 h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
     -webkit-animation: ccc 1.6s linear infinite ;
     animation: ccc 1.6s linear infinite ;
@@ -74,13 +74,11 @@ h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
 }
 
 #recent-posts>.recent-post-item,.layout_page>div:first-child:not(.recent-posts),.layout_post>#page,.layout_post>#post,.read-mode .layout_post>#post {
-    /*background: var(--light_bg_color)*/
-	background-color: rgba(255,255,255,1);
+    background: var(--light_bg_color)
 }
 
 #aside-content .card-widget {
-    /*background: var(--light_bg_color)*/
-	background-color: rgba(255,255,255,1);
+    background: var(--light_bg_color)
 }
 
 #web_bg {
