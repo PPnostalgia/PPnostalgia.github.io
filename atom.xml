@@ -6,7 +6,7 @@
   <link href="https://www.luckyshrek.top/atom.xml" rel="self"/>
   
   <link href="https://www.luckyshrek.top/"/>
-  <updated>2022-03-28T08:13:30.952Z</updated>
+  <updated>2022-03-29T12:42:39.670Z</updated>
   <id>https://www.luckyshrek.top/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://www.luckyshrek.top/ce79866c.html"/>
     <id>https://www.luckyshrek.top/ce79866c.html</id>
     <published>2022-03-28T02:31:34.000Z</published>
-    <updated>2022-03-28T08:13:30.952Z</updated>
+    <updated>2022-03-29T12:42:39.670Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><img src="http://image.techweb.com.cn/upload/roll/2021/05/20/202105205752_4804.webp" alt="img"></p><p><img src="http://image.techweb.com.cn/upload/roll/2021/05/20/202105205909_2040.webp" alt="img"></p><h1 id="一、Zookeeper对于Kafka的作用"><a href="#一、Zookeeper对于Kafka的作用" class="headerlink" title="一、Zookeeper对于Kafka的作用"></a>一、Zookeeper对于Kafka的作用</h1><h2 id="1-注册中心"><a href="#1-注册中心" class="headerlink" title="1. 注册中心"></a>1. 注册中心</h2><h3 id="1-1-broker注册"><a href="#1-1-broker注册" class="headerlink" title="1.1 broker注册"></a>1.1 broker注册</h3><p>​    broker分布式部署，需要一个注册中心统一管理，Zookeeper使用专门节点保存Broker服务列表，即/broker/ids</p><p>​    broker在启动时，向Zookeeper发送注册请求，Zookeeper会在/brokers/ids下创建这个broker节点，如/brokers/ids/[0…N]，并保存broker的IP地址和端口。</p><p>​    这个节点临时节点，一旦broker宕机，这个临时节点会被自动删除。</p><h3 id="1-2-Topic注册"><a href="#1-2-Topic注册" class="headerlink" title="1.2 Topic注册"></a>1.2 Topic注册</h3><p>Zookeeper同时也会为topic分配一个单独节点，即/brokers/topics/[topic_name]</p><p>一个topic的消息会被保存到多个partition，这些partition跟broker的对应关系也需要保存到Zookeeper。</p><p>partition是多副本保存的，上图中红色partition是leader副本。当leader副本所在的broker发生故障时，partition需要重新<strong>选举leader</strong>，这个需要由<strong>Zookeeper</strong>主导完成。</p><p>broker启动后，会把自己的Broker ID注册到到对应topic节点的分区列表中。</p><p>我们查看一个topic是xxx，分区编号是1的信息，命令如下：</p><p>[root@master] get /brokers/topics/xxx/partitions/1/state {“controller_epoch”:15,”leader”:11,”version”:1,”leader_epoch”:2,”isr”:[11,12,13]} </p><p>当broker退出后，Zookeeper会更新其对应topic的分区列表。</p><h3 id="1-3-Consumer注册"><a href="#1-3-Consumer注册" class="headerlink" title="1.3 Consumer注册"></a>1.3 Consumer注册</h3><p>消费者组也会向Zookeeper进行注册，Zookeeper会为其分配节点来保存相关数据，节点路径为/consumers/{group_id}，有3个子节点，如下图:</p><p><img src="http://image.techweb.com.cn/upload/roll/2021/05/20/20210520737_8131.webp" alt="img"></p><p>这样Zookeeper可以记录分区跟消费者的关系，以及分区的offset。[3]</p><h2 id="二、-负载均衡"><a href="#二、-负载均衡" class="headerlink" title="二、 负载均衡"></a>二、 负载均衡</h2><p>​    broker向Zookeeper进行注册后，生产者根据broker节点来感知broker服务列表变化，这样可以实现动态负载均衡。</p><p>​    consumer group中的消费者，可以根据topic节点信息来拉取特定分区的消息,实现负载均衡。</p><p>​    实际上，Kafka在Zookeeper中保存的元数据非常多，看下面这张图：</p><p><img src="http://image.techweb.com.cn/upload/roll/2021/05/20/202105203637_6765.webp" alt="img"></p><p>随着broker、topic和partition增多，保存的数据量会越来越大。</p><h1 id="Kafka与Zookeeper之间的交互"><a href="#Kafka与Zookeeper之间的交互" class="headerlink" title="Kafka与Zookeeper之间的交互"></a>Kafka与Zookeeper之间的交互</h1>]]></content>
     
