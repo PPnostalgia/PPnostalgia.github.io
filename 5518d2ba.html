@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>关于Elasticsearch的一些问题 | Simon’s blog</title><meta name="keywords" content="Elasticsearch"><meta name="author" content="Simon"><meta name="copyright" content="Simon"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Elasticsearch 是一个基于 Lucene 库的搜索引擎。它提供了一个准实时的、分布式、支持多租户的全文搜索引擎。 ————维基百科 ES底层数据结构主要就是针对 term 和 posting list 进行压缩处理，使搜索速度更快。 准实时性elasticsearch 被称为准实时搜索，原因是对 Elasticsearch 的写入操作成功后，写入的数据需要1秒钟后才能被搜索到，因此 E">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Elasticsearch的一些问题">
+<meta property="og:url" content="http://ppnostalgia.github.io./5518d2ba.html">
+<meta property="og:site_name" content="Simon’s blog">
+<meta property="og:description" content="Elasticsearch 是一个基于 Lucene 库的搜索引擎。它提供了一个准实时的、分布式、支持多租户的全文搜索引擎。 ————维基百科 ES底层数据结构主要就是针对 term 和 posting list 进行压缩处理，使搜索速度更快。 准实时性elasticsearch 被称为准实时搜索，原因是对 Elasticsearch 的写入操作成功后，写入的数据需要1秒钟后才能被搜索到，因此 E">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_4.jpg">
+<meta property="article:published_time" content="2022-03-03T12:09:34.000Z">
+<meta property="article:modified_time" content="2022-03-27T05:36:50.296Z">
+<meta property="article:author" content="Simon">
+<meta property="article:tag" content="Elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_4.jpg"><link rel="shortcut icon" href="/img/bitbug_favicon.ico"><link rel="canonical" href="http://ppnostalgia.github.io./5518d2ba"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index@1.1.0.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.5/dist/instantsearch.min.js" defer></script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4acf95f558e1933f1d46fbf0e26e25a1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-40VH67TNSM"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-40VH67TNSM');
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: {"appId":"E3RMSV6NOB","apiKey":"799a9b701a8200953a57527637eaa2eb","indexName":"blog","hits":{"per_page":10},"languages":{"input_placeholder":"搜索文章","hits_empty":"找不到您查询的内容：${query}","hits_stats":"找到 ${hits} 条结果，用时 ${time} 毫秒"}},
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Simon","link":"链接: ","source":"来源: Simon’s blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-right"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '关于Elasticsearch的一些问题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-03-27 13:36:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    document.addEventListener('pjax:complete', detectApple)})(window)</script><link rel="stylesheet" href="/css/custom@1.0.1.css"><script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js"></script><link rel="stylesheet" href="//at.alicdn.com/t/font_3022232_oy5w40isw6a.css"><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-butterfly-clock/lib/clock.min.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Simon’s blog" type="application/atom+xml">
+</head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/configuration/avatar01.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">52</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa-fw far fa-newspaper"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-globe-asia"></i><span> 统计</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/article_statistical/"><i class="fa-fw iconfont icon-wenzhangtongji"></i><span> 文章统计</span></a></li><li><a class="site-page child" href="/blog_statistical/"><i class="fa-fw iconfont icon-yujingtongji"></i><span> 博客统计</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-magic"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/photo/"><i class="fa-fw fas fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa fa-film"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://nav.luckyshrek.top"><i class="fa-fw fas fa-meteor"></i><span> 收藏夹</span></a></li><li><a class="site-page child" href="/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heart"></i><span> 本站</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa fa-address-card"></i><span> 关于本站</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/" title="返回主页"><span>Simon’s blog</span><i class="fas fa-home"></i></a></span><span id="page_name"><a id="page-name-text"></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa-fw far fa-newspaper"></i><span> 文章</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-globe-asia"></i><span> 统计</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/article_statistical/"><i class="fa-fw iconfont icon-wenzhangtongji"></i><span> 文章统计</span></a></li><li><a class="site-page child" href="/blog_statistical/"><i class="fa-fw iconfont icon-yujingtongji"></i><span> 博客统计</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-magic"></i><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/photo/"><i class="fa-fw fas fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fas fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa fa-film"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa fa-compass"></i><span> 导航</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" target="_blank" rel="noopener" href="https://nav.luckyshrek.top"><i class="fa-fw fas fa-meteor"></i><span> 收藏夹</span></a></li><li><a class="site-page child" href="/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-heart"></i><span> 本站</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa fa-address-card"></i><span> 关于本站</span></a></li></ul></div></div></div><div id="hotkey"><div id="search-button"><a class="site-page social-icon search" title="搜索"><i class="fas fa-search fa-fw"></i></a></div><div id="mode-button"><a class="site-page" title="浅色和深色模式转换"><i class="fas fa-adjust fa-fw"></i></a></div><div id="top-button"><a class="site-page" title="回到顶部"><i class="fas fa-rocket fa-fw"></i></a></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">关于Elasticsearch的一些问题<a class="post-edit-link" href="https://github.com/PPnostalgia/blog-source/tree/master/source/_posts/Elasticsearch(三).md" title="编辑" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-03-03T12:09:34.000Z" title="发表于 2022-03-03 20:09:34">2022-03-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-03-27T05:36:50.296Z" title="更新于 2022-03-27 13:36:50">2022-03-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Elasticsearch/">Elasticsearch</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="关于Elasticsearch的一些问题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><p>Elasticsearch 是一个基于 Lucene 库的搜索引擎。它提供了一个准实时的、分布式、支持多租户的全文搜索引擎。 ————维基百科</p>
+<p>ES底层数据结构主要就是针对 term 和 posting list 进行压缩处理，使搜索速度更快。</p>
+<h1 id="准实时性"><a href="#准实时性" class="headerlink" title="准实时性"></a>准实时性</h1><p>elasticsearch 被称为准实时搜索，原因是对 Elasticsearch 的写入操作成功后，写入的数据需要1秒钟后才能被搜索到，因此 Elasticsearch 搜索是准实时或者又称为近实时（<code>near real time</code>）。</p>
+<p><strong>ES写入的数据会先写到一个内存bufferr中去(</strong>在<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=buffer&amp;spm=1001.2101.3001.7020">buffer</a>里的时候数据是搜索不到的<strong>)，然后每隔默认是一秒会刷到os cache。</strong></p>
+<p>Elasticsearch和磁盘之间是文件系统缓存，就是说数据写入磁盘文件之前，会先进入os cache，先进入操作系统级别的一个内存缓存中去，只要<strong>buffer中的数据被refresh操作</strong>，<strong>刷入os cache中，就代表这个数据就可以被搜索到了</strong>（这里新段会被先写入到文件系统缓存—这一步代价会比较低，稍后<strong>再被刷新到磁盘—这一步代价比较高</strong>。不过只要文件已经在缓存中， 就可以像其它文件一样被打开和读取了）。默认是<strong>每隔1秒refresh一次的</strong>，所以es是准实时的，因为写入的数据1秒之后才能被看到。</p>
+<h1 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h1><p>  问：为什么不用mysql进行搜索而是使用elasticsearch进行搜索呢？</p>
+<p>   mysql使用的b-tree 索引是为写入优化的索引结构。当我们不需要支持快速的更新的时候，可以用预先排序等方式换取更小的存储空间，更快的检索速度等好处，其代价就是更新慢，即倒排索引。</p>
+<h2 id="为什么叫倒排索引"><a href="#为什么叫倒排索引" class="headerlink" title="为什么叫倒排索引"></a>为什么叫倒排索引</h2><p>在没有搜索引擎时，我们是直接输入一个网址，然后获取网站内容，这时我们的行为是：</p>
+<p>document -&gt; to -&gt; words</p>
+<p>通过文章，获取里面的单词，此谓「正向索引」，forward index.</p>
+<p>后来，我们希望<strong>能够输入一个单词，找到含有这个单词，或者和这个单词有关系的文章</strong>：</p>
+<p>word -&gt; to -&gt; documents</p>
+<p>于是我们把这种索引，成为inverted index，直译过来，应该叫「反向索引」，国内翻译成「倒排索引」，有点委婉了。</p>
+<h2 id="倒排索引原理"><a href="#倒排索引原理" class="headerlink" title="倒排索引原理"></a>倒排索引原理</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tech-lee/p/15225276.html">倒排索引原理详见</a></p>
+<p>现在我们可以回答“为什么 Elasticsearch/Lucene 检索可以比 mysql 快了。Mysql 只有 term dictionary 这一层，是以 b-tree 排序的方式存储在磁盘上的。检索一个 term 需要若干次的 random access 的磁盘操作。而 Lucene 在 term dictionary 的基础上添加了 term index （<strong>这棵树不会包含所有的 term</strong>，它包含的是 term 的一些前缀。<strong>通过 term index 可以快速地定位到 term dictionary 的某个 offset</strong>，然后从这个位置再往后顺序查找。再加上一些压缩技术（搜索 Lucene Finite State Transducers <strong>FST</strong>） <strong>term index 的尺寸可以只有所有 term 的尺寸的几十分之一，使得用内存缓存整个 term index 变成可能。</strong>）来加速检索，term index 以树的形式缓存在内存中。从 term index 查到对应的 term dictionary 的 block 位置之后，再去磁盘上找 term，<strong>大大减少了磁盘的 random access 次数</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.loli.net/2022/03/04/K8emIMyaTlHXW3i.png" alt="image-20220304103657643"></p>
+<h3 id="关于磁盘随机读"><a href="#关于磁盘随机读" class="headerlink" title="关于磁盘随机读"></a>关于磁盘随机读</h3><p>ps:现在的大数据工具一般都会设计为append only的形式，既文件只能追加写，其它的删、改都只能建立在append only的基础上，如删一条数据只能append一个记录，把要删的数据标记为删除，而不能从磁盘中删除原数据，这样的机制主要就是<strong>尽可能保证磁盘是顺序读写</strong>而不是随机读。</p>
+<p>磁盘随机读时间主要消耗在<strong>寻道，和旋转延迟</strong>上了，随机读一次的时间消耗在<strong>10ms</strong>这个级别上。</p>
+<p>磁盘顺序读，磁盘一秒之内顺序读的大小是 磁盘转速*每磁道字节数 这个级别大概是40M（可以进行测试） 数据库的页一般是4K ，而每页包含的数据条数大概是10 条这个级别，所以顺序读一条数据耗费时间大概是 0.01ms</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://deliveryimages.acm.org/10.1145/1570000/1563874/jacobs3.jpg" alt="img"></p>
+<h1 id="Elasticsearch如何进行联合索引查询"><a href="#Elasticsearch如何进行联合索引查询" class="headerlink" title="Elasticsearch如何进行联合索引查询"></a>Elasticsearch如何进行联合索引查询</h1><p>对不同字段得到的posting list进行与合并，如何进行？</p>
+<ul>
+<li>使用 <strong>skip list</strong> 数据结构。同时遍历 gender 和 age 的 <strong>posting list</strong>，<strong>互相 skip</strong>；</li>
+<li>使用 bitset 数据结构，对 gender 和 age 两个 filter 分别求出 bitset，对两个 bitset 做 AN 操作。</li>
+</ul>
+<p>es中filter类型的查询是会被缓存的。<strong>如果新的查询在缓存中，就会使用bitmap合并，否则构建跳表合并</strong>。</p>
+<h2 id="Skip-list"><a href="#Skip-list" class="headerlink" title="Skip list"></a>Skip list</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lufeiludaima/p/pz20190220.html">关于跳表的增删改查操作演示</a>（空间换时间）</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.loli.net/2022/03/04/ewuxgh6iXVb2AWS.png" alt="image-20220304112240319"></p>
+<p>以上是三个 posting list。我们现在需要把它们用 AND 的关系合并，得出 posting list 的交集。首先选择最短的 posting list，然后从小到大遍历。互相skip</p>
+<p>具体过程</p>
+<ol>
+<li>currentA=2,到B找到第一个&gt;=currentA的值 currentB=13</li>
+<li>继续去C中找到第一个&gt;=currentB currentC=13</li>
+<li>currentA = currentA-&gt;next</li>
+<li>match  返回13</li>
+<li>currentA=17 currentB=22</li>
+<li>currentA=98 currentB=98 currentC=98</li>
+<li>match 返回98</li>
+</ol>
+<h2 id="bitset"><a href="#bitset" class="headerlink" title="bitset"></a>bitset</h2><p>Bitset 是一种很直观的数据结构，对应 posting list 如：</p>
+<p>[1,3,4,7,10]</p>
+<p>对应的 bitset 就是：</p>
+<p>[1,0,1,1,0,0,1,0,0,1]</p>
+<p>每个文档按照文档 id 排序对应其中的一个 bit。Bitset 自身就有压缩的特点，其用一个 byte 就可以代表 8 个文档。所以 100 万个文档只需要 12.5 万个 byte。但是考虑到文档可能有数十亿之多，在内存里保存 bitset 仍然是很奢侈的事情。而且对于个每一个 filter 都要消耗一个 bitset，比如 age=18 缓存起来的话是一个 bitset，18&lt;=age&lt;25 是另外一个 filter 缓存起来也要一个 bitset。</p>
+<p>所以秘诀就在于需要有一个数据结构：</p>
+<ul>
+<li>可以很压缩地保存上亿个 bit 代表对应的文档是否匹配 filter；</li>
+<li>这个压缩的 bitset 仍然可以很快地进行 AND 和 OR 的逻辑操作。</li>
+</ul>
+<p>Lucene 使用的这个数据结构就是 <strong>Roaring Bitmap</strong>。</p>
+<h2 id="Roaring-bitmap"><a href="#Roaring-bitmap" class="headerlink" title="Roaring bitmap"></a>Roaring bitmap</h2><p>当我们的查询有多项，最后要把每个查询命中的文档id列表合并，做交，差，并等罗辑。我们一般会想到用bitmap这种数据结构。但如果文档id列表是稀疏的，就会造成极大的空间浪费。这里便使用roaring bitmap进行优化。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.loli.net/2022/03/04/5r4s72jepEmdOuG.png" alt="image-20220304153906152"></p>
+<p>我们把id除65536，分别得到商和余数，将商相同的，放到一个块里，这样id的范围都是小于65536，不会无限增长。</p>
+<p>这两种合并使用索引的方式都有其用途。Elasticsearch 对其性能有详细的对比（<a target="_blank" rel="noopener" href="https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps"> https://www.elastic.co/blog/frame-of-reference-and-roaring-bitmaps </a>）。简单的结论是：因为 Frame of Reference 编码是如此 高效，对于简单的相等条件的过滤缓存成纯内存的 bitset 还不如需要访问磁盘的 <strong>skip list</strong> 的方式要快。</p>
+<h1 id="Frame-Of-Reference"><a href="#Frame-Of-Reference" class="headerlink" title="Frame Of Reference"></a>Frame Of Reference</h1><p><strong>针对posting list优化</strong></p>
+<p>文档id列表是词出现过的文档的id集合，文档数目多了，简单的把id用list串起来也是吃不消的。es中做了一步优化，<strong>增量编码压缩</strong>。</p>
+<p>首先，文档id列表中的id是有序的。然后，我们只存储id的增量。再然后，我们根据增量需要占用的bit数分组，用字节来存储。</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.loli.net/2022/03/04/bnvNG4DISWuB1cR.png" alt="image-20220304145959905"></p>
+<p>如上图，原来6个id要24个字节（一个int占4byte），现在只要7byte</p>
+<h1 id="kdtree"><a href="#kdtree" class="headerlink" title="kdtree"></a>kdtree</h1><p>对于数值类型的范围查询，因为会涉及浮点数，如果构建倒排索引的话，可能会产生数目巨大的链合并操作。因此采用kdtree来优化</p>
+<p><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://s2.loli.net/2022/03/04/kWUEhKYml3OLFfu.png" alt="image-20220304150511079"></p>
+<p>一维的kdtree 类似二叉查找树，叶子节点中，存储了一个范围内的词和词对应的id。这里的id不要求像倒排索引中文档id列表是有序的。所以，数值类型的范围查询再和其他结果合并时，无法通过链表的形式在各个结果链上迭代。只能通过构建bitset来处理。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Simon</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://ppnostalgia.github.io./5518d2ba.html">http://ppnostalgia.github.io./5518d2ba.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://PPnostalgia.github.io." target="_blank">Simon’s blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Elasticsearch/">Elasticsearch</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_4.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/blog/configuration/wx.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/blog/configuration/wx.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/blog/configuration/zfb.jpg" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/blog/configuration/zfb.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/75de5773.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_8.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Kafka特性</div></div></a></div><div class="next-post pull-right"><a href="/8614be8d.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SpringBoot整合Elasticsearch</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/8614be8d.html" title="SpringBoot整合Elasticsearch"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-03-02</div><div class="title">SpringBoot整合Elasticsearch</div></div></a></div><div><a href="/3cd93342.html" title="Elasticsearch入门"><img class="cover" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200704_4522959068462027_2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-23</div><div class="title">Elasticsearch入门</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/configuration/avatar01.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Simon</div><div class="author-info__description">欲买桂花同载酒，终不似，少年游</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">52</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">23</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://stats.uptimerobot.com/Nj9MXHZPOk"><i class="fa fa-cogs"></i><span>状态监控</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/PPnostalgia" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=fE1MTEtOSUhJT0Q8DQ1SHxMR" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a><a class="social-icon" href="https://PPnostalgia.blog.csdn.net" target="_blank" title="CSDN"><i class="fab fa-cuttlefish flat-btn"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%87%86%E5%AE%9E%E6%97%B6%E6%80%A7"><span class="toc-text">准实时性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AB%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">为什么叫倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86"><span class="toc-text">倒排索引原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E7%A3%81%E7%9B%98%E9%9A%8F%E6%9C%BA%E8%AF%BB"><span class="toc-text">关于磁盘随机读</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Elasticsearch%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E6%9F%A5%E8%AF%A2"><span class="toc-text">Elasticsearch如何进行联合索引查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Skip-list"><span class="toc-text">Skip list</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#bitset"><span class="toc-text">bitset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Roaring-bitmap"><span class="toc-text">Roaring bitmap</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Frame-Of-Reference"><span class="toc-text">Frame Of Reference</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kdtree"><span class="toc-text">kdtree</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/fa313643.html" title="Mysql查询优化"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200720_4528755479681167_7.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Mysql查询优化"/></a><div class="content"><a class="title" href="/fa313643.html" title="Mysql查询优化">Mysql查询优化</a><time datetime="2023-01-31T07:03:48.000Z" title="发表于 2023-01-31 15:03:48">2023-01-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/72b1017b.html" title="ElementUI笔记"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200716_4527416531498087_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="ElementUI笔记"/></a><div class="content"><a class="title" href="/72b1017b.html" title="ElementUI笔记">ElementUI笔记</a><time datetime="2022-11-14T06:20:34.000Z" title="发表于 2022-11-14 14:20:34">2022-11-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/6485e78d.html" title="基于Smartcloud项目学习Springcloud"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200716_4527416531498087_3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于Smartcloud项目学习Springcloud"/></a><div class="content"><a class="title" href="/6485e78d.html" title="基于Smartcloud项目学习Springcloud">基于Smartcloud项目学习Springcloud</a><time datetime="2022-11-07T03:42:00.000Z" title="发表于 2022-11-07 11:42:00">2022-11-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/77519cd8.html" title="VO、DTO、PO"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200716_4527416531498087_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VO、DTO、PO"/></a><div class="content"><a class="title" href="/77519cd8.html" title="VO、DTO、PO">VO、DTO、PO</a><time datetime="2022-11-04T06:20:34.000Z" title="发表于 2022-11-04 14:20:34">2022-11-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/a9b3efe1.html" title="单点登录"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/background/moviebg/20200716_4527416531498087_2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="单点登录"/></a><div class="content"><a class="title" href="/a9b3efe1.html" title="单点登录">单点登录</a><time datetime="2022-10-31T06:40:34.000Z" title="发表于 2022-10-31 14:40:34">2022-10-31</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web/img/configuration/footer01.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Simon</div><div class="footer_custom_text"><p><a target="_blank" rel="noopener" href="https://beian.miit.gov.cn/"><img class="icp-icon entered loading"src="/img/icp.png"alt="ICP"data-ll-status="loading">鲁ICP备2021040242号</a></p><p><a style="margin-inline:5px"target="_blank"href="https://hexo.io/"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo"title="博客框架为 Hexo"alt="HEXO"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/jerryc127/hexo-theme-butterfly"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender"title="主题采用 Butterfly"alt="Butterfly"></a><a style="margin-inline:5px"target="_blank"href="https://www.jsdelivr.com/"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr"title="本站使用 Jsdelivr 为静态资源提供CDN加速"alt="Jsdelivr"></a><a style="margin-inline:5px"target="_blank"href="https://github.com/PPnostalgia/blog-butterfly"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub"title="本站项目由 GitHub 托管"alt="GitHub"></a><a style="margin-inline:5px"target="_blank"href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris"alt="img"title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"></a></p></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="algolia-search"><div class="search-dialog"><div class="search-dialog__title" id="algolia-search-title">Algolia</div><div id="algolia-input-panel"><div id="algolia-search-input"></div></div><hr/><div id="algolia-search-results"><div id="algolia-hits"></div><div id="algolia-pagination"></div><div id="algolia-stats"></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/js/utils.js"></script><script src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/js/main@1.0.4.js"></script><script defer src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script defer src="https://cdn.jsdelivr.net/gh/PPnostalgia/cdn_web@latest/js/search/algolia.js"></script><div class="js-pjax"><script>function loadUtterances () {
+  let ele = document.createElement('script')
+  ele.setAttribute('id', 'utterances_comment')
+  ele.setAttribute('src', 'https://utteranc.es/client.js')
+  ele.setAttribute('repo', 'PPnostalgia/blog-comment')
+  ele.setAttribute('issue-term', 'title')
+  let nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+  ele.setAttribute('theme', nowTheme)
+  ele.setAttribute('crossorigin', 'anonymous')
+  ele.setAttribute('async', 'true')
+  document.getElementById('utterances-wrap').insertAdjacentElement('afterbegin',ele)
+}
+
+function utterancesTheme () {
+  if (document.querySelector('.utterances-frame')) {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    const message = {
+      type: 'set-theme',
+      theme: theme
+    };
+    const iframe = document.querySelector('.utterances-frame');
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+  }
+}
+
+if ('Utterances' === 'Utterances' || !false) {
+  if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+  else loadUtterances()
+} else {
+  function loadOtherComment () {
+    loadUtterances()
+  }
+}</script></div><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = [
+  'title',
+  '#config-diff',
+  '#body-wrap',
+  '#rightside-config-hide',
+  '#rightside-config-show',
+  '.aplayer',
+  '.js-pjax'
+]
+
+if (false) {
+  pjaxSelectors.unshift('meta[property="og:image"]', 'meta[property="og:title"]', 'meta[property="og:url"]')
+}
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: true,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.removeEventListener('scroll', window.tocScrollFn)
+  window.removeEventListener('scroll', scrollCollect)
+
+  typeof preloader === 'object' && preloader.initLoading()
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', 'G-40VH67TNSM', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // Analytics
+  if (false) {
+    MtaH5.pgv()
+  }
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+
+  typeof preloader === 'object' && preloader.endLoading()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax  src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src= "data:image/gif;base64,R0lGODdhAQABAPAAAMPDwwAAACwAAAAAAQABAAACAkQBADs=" data-lazy-src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-clock/clock/images/weather/loading.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://cdn.jsdelivr.net/npm/hexo-butterfly-clock/lib/clock.min.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300,"hOffset":0,"vOffset":0},"mobile":{"show":false},"rect":"opacity:0.9","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
