@@ -15,19 +15,15 @@ export const THEME_CONFIG: App.Locals['config'] = {
   socials: [
     {
       name: "github",
-      href: "https://github.com/moeyua/astro-theme-typography",
+      href: "https://github.com/PPnostalgia",
     },
     {
-      name: "rss",
-      href: "/atom.xml",
+      name: "email-outline",
+      href: "http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=fE1MTEtOSUhJT0Q8DQ1SHxMR",
     },
-    {
-      name: "twitter",
-      href: "https://github.com/moeyua/astro-theme-typography",
-    },
-    {
-      name: "mastodon",
-      href: "https://github.com/moeyua/astro-theme-typography",
+	{
+      name: "sina-weibo",
+      href: "https://weibo.com/u/3208100394",
     }
   ],
   /** your header info */
@@ -59,10 +55,10 @@ export const THEME_CONFIG: App.Locals['config'] = {
   ],
   /** your comment provider */
   comments: {
-    disqus: {
-      // please change this to your disqus shortname
-      shortname: "typography-astro",
-    },
+    //disqus: {
+    //  // please change this to your disqus shortname
+    //  shortname: "typography-astro",
+    //},
     // giscus: {
     //   repo: 'moeyua/astro-theme-typography',
     //   repoId: 'R_kgDOKy9HOQ',
