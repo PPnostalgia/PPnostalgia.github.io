@@ -2,7 +2,7 @@
 title: Netty学习笔记
 categories: ['学习笔记']
 pubDate: 2022-03-30 10:01:34
-description: ''
+description: 'IO多路复用是核心'
 ---
 
 # NIO基础

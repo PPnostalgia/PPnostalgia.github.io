@@ -2,7 +2,7 @@
 title: Vue学习笔记
 categories: ['学习笔记']
 pubDate: 2022-10-09 15:39:34
-description: ''
+description: '早期Vue学习笔记'
 ---
 
 # 初期

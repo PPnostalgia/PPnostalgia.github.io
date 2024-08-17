@@ -2,7 +2,7 @@
 title: JVM学习笔记
 categories: ['学习笔记']
 pubDate: 2022-03-09 21:29:34
-description: ''
+description: 'JVM学习的意义更多是培养一种思维，知道如何优化系统运行效率，排查系统占用高，响应慢的原因'
 ---
 
 # 一、什么是JVM
