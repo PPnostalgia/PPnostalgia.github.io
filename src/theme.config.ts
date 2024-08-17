@@ -8,7 +8,7 @@ export const THEME_CONFIG: App.Locals['config'] = {
   /** your deployed domain */
   website: "https://ppnostalgia.github.io/",
   /** your locale */
-  locale: "en-us",
+  locale: "zh-cn",
   /** theme style */
   themeStyle: "light",
   /** your socials */
